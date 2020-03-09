@@ -1,0 +1,96 @@
+Docker Network commands
+=========================
+
+docker network ls
+docker network create networkName
+docker network rm networkName
+docker network inspect networkName
+docker run --name containerName -d -it --net networkName imageName options
+docker network  connect networkName containerName
+docker attach containerName
+docker exec -it containerName options
+docker network  disconnect networkName containerName
+docker network prune
+
+day1
+====
+
+Containers in default bridge Network
+=====================================
+
+docker network ls
+
+NETWORK ID          NAME                DRIVER              SCOPE
+33d14a88f43f        bridge              bridge              local
+45d14a88f43f        host                host                local
+46d14a88f43f        none                none                local
+
+
+
+docker run --name centos-1 -it centos bash
+docker run --name centos-2 -it centos bash
+
+
+docker ls
+docker inspect bridge
+
+
+Containers in custom bridge Network
+=====================================
+
+docker network create myNetwork
+
+docker run --name centos-1 -net myNetwork -it centos bash
+
+docker run --name centos-2 -net myNetwork -it centos bash
+
+
+
+
+
+day2
+=====
+docker-compose.yml
+=====================
+version: '3.3'
+
+services:
+   db:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: somewordpress
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+
+   wordpress:
+     depends_on:
+       - db
+     image: wordpress:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+       WORDPRESS_DB_NAME: wordpress
+volumes:
+    db_data: {}
+
+
+ 
+docker-compose up -d
+
+
+
+
+
+
+
+
+
+

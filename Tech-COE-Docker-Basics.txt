@@ -1,0 +1,556 @@
+
+Day1
+====
+
+
+1.Why Docker?
+
+2.What is a docker ?
+=====================
+Docker is a container management service.
+The keywords of Docker are develop, ship and run anywhere.
+The whole idea of Docker is for developers to easily develop applications, ship them into containers which can then be deployed anywhere.
+
+3.Features of Docker
+====================
+
+=>Docker has the ability to reduce the size of development by providing a smaller footprint of the operating system via containers.
+
+=>With containers, it becomes easier for teams across different units, such as development, QA and Operations to work seamlessly across applications.
+
+=>You can deploy Docker containers anywhere, on any physical and virtual machines and even on the cloud.
+
+=>Since Docker containers are pretty lightweight, they are very easily scalable.
+
+
+
+
+4.Components of Docker
+======================
+
+=>Docker for Mac - It allows one to run Docker containers on the Mac OS.
+
+=>Docker for Linux - It allows one to run Docker containers on the Linux OS.
+
+=>Docker for Windows - It allows one to run Docker containers on the Windows OS.
+
+=>Docker Engine - It is used for building Docker images and creating Docker containers.
+
+=>Docker Hub - This is the registry which is used to host various Docker images.
+
+=>Docker Compose - This is used to define applications using multiple Docker containers.
+
+
+5.Installation of Docker on windows?
+
+    Refer this site :
+
+    https://docs.docker.com/toolbox/toolbox_install_windows/
+
+
+  For windows we need to download Docker toolbox.
+
+
+To Check Installation
+=======================
+
+1.docker version  :shows the version of docker
+
+2.docker info     :gives the indormation of docker
+
+Docker Basic Commands
+=====================
+
+Basic
+: docker version
+: docker --version
+: docker -v
+: docker info
+: docker --help
+: docker login
+————————————
+Images
+: docker images
+: docker pull
+: docker push
+: docker rmi
+————————————
+Containers
+: docker ps
+: docker run 
+: docker start
+: docker stop
+: docker pause
+————————————
+System
+: docker stats
+: docker system df
+: docker system prune
+
+
+To remove all multiple containers
+===================================
+docker rm -f c2d79dbd5581 39bff36fec4f 5cddf9344a62 152e56f4f4d1 558197ba2d6e e1672924ad4e
+
+
+
+Downloading the Latest MongoDB Docker Image
+===========================================
+   Syntax : docker pull <image-name>  or docker pull <image-name>:<tag>
+
+    Example : docker pull mongo or docker pull mongo:4.0.4
+
+
+Deploying an Instance of MongoDB as a Container
+====================================================
+   Syntax : docker run --name <alias-name> <image-name>:tag
+
+   Example : docker run --name mongodb mongo:4.0.4
+
+
+Interacting with the MongoDB Docker Container with Basic Shell Operations
+==========================================================================
+
+  Syntax :docker exec -it <container-name> bash
+
+  Example : docker exec -it mongodb bash
+
+   do some modification
+   and commit the changes.  
+
+
+To commit the changes in container
+====================================
+
+ docker commit -m 'Pradeep has created mongodb' -a "Pradep Chinchole<PradeepCh82@gmail.com>" 055e9cfa39fc pradeep-mongodb:latest
+
+
+To Tag the Image
+==================
+docker tag pradeep-mongodb:latest pradeepch82/pradeep-mongodb
+
+
+To Push The Images
+====================
+docker push pradeepch82/pradeep-mongodb
+
+
+
+short cut commands
+=====================
+docker run --name pradeep-mysql -it mysql:latest bash
+
+
+docker commit -m "added mysql server" -a "Pradeep Chinchole" pradeep-mysql pradeepch82/pradeep-mysql:latest
+
+
+docker login
+
+docker push pradeepch82/pradeep-mysql
+
+
+
+https://cloud.docker.com/repository/list
+
+
+1. What are images
+2. How to pull image
+3. How to run a container using an image
+4. Basic Commands
+
+TIPS & TRICKS
+
+
+What are Images ?
+=================
+
+Docker Images are templates used to create Docker containers
+Container is a running instance of image
+
+Where are Images Stored
+Registries (e.g. docker hub)
+Can be stored locally or remote
+
+: docker images --help
+: docker pull image
+: docker images
+: docker images -q
+: docker images -f “dangling=falseE
+: docker images -f “dangling=falseE-q
+
+: docker run image
+: docker rmi image
+: docker rmi -f image
+
+: docker inspect
+: docker history imageName
+
+
+
+1. What are Containers
+2. How to create Containers
+3. How to start / stop Containers
+4. Basic Commands
+
+TIPS & TRICKS
+
+
+What are Containers:
+Containers are running instances of Docker Images
+
+
+
+
+
+COMMANDS
+: docker ps
+: docker run ImageName
+: docker start ContainerName/ID
+: docker stop ContainerName/ID
+
+: docker pause ContainerName/ID
+: docker unpause  ContainerName/ID
+
+: docker top ContainerName/ID
+: docker stats ContainerName/ID
+
+: docker attach ContainerName/ID
+
+: docker kill ContainerName/ID
+: docker rm ContainerName/ID
+
+: docker history ImageName/ID
+
+
+
+What is a Container ?
+=====================
+
+A container image is a lightweight, stand-alone, executable package of a piece of software that includes everything needed to run it: code, runtime, system tools, system libraries, settings.
+
+Features of Containers:
+======================
+=>Are lightweight
+=>Fewer resources are used
+=>Booting of containers is very fast
+=>Can start, stop, kill, remove containers easily and quickly
+=>Operating System resources can be shared within Docker
+=>Containers run on the same machine sharing the same Operating system Kernel, this makes it faster
+=>You can use the command docker container create  to create a container in stopped state
+
+
+
+Day2
+=====
+
+
+Docker File
+=============
+
+1. What is Dockerfile
+2. How to create Dockerfile
+3. How to build image from Dockerfile
+4. Basic Commands
+
+TIPS & TRICKS
+
+Dockerfile :
+A text file with instructions to build image
+Automation of Docker Image Creation
+
+FROM
+MAINTAINER
+RUN
+CMD
+
+
+
+Step 1 : Create a file named Dockerfile
+
+Step 2 : Add instructions in Dockerfile
+
+Step 3 : Build dockerfile to create image
+
+Step 4 : Run image to create container
+
+
+Example  :Dockerfile
+
+FROM ubuntu
+MAINTAINER Pradeep Chinchole <pradeepch82@gmail.com>
+RUN apt-get update
+CMD ["echo", "Hello World..! from my first docker iamge"]
+
+
+COMMANDS
+docker build directoryOfDocekrfile
+docker build -t ImageName:Tag directoryOfDocekrfile
+docker run image
+
+
+
+References:
+
+https://www.youtube.com/redirect?event=video_description&v=LQjaJINkQXY&redir_token=E3PErBNVcg9u6KYx6LdmsGYdf4x8MTU2Mjc3ODI4OUAxNTYyNjkxODg5&q=https%3A%2F%2Fgithub.com%2Fwsargent%2Fdocker-cheat-sheet%23dockerfile
+
+https://www.youtube.com/redirect?event=video_description&v=LQjaJINkQXY&redir_token=E3PErBNVcg9u6KYx6LdmsGYdf4x8MTU2Mjc3ODI4OUAxNTYyNjkxODg5&q=https%3A%2F%2Fdocs.docker.com%2Fengine%2Freference%2Fbuilder%2F%23environment-replacement
+
+
+Docker Compose
+==============
+
+1. What | Why - Docker Compose
+2. How to install
+3. How to create docker compose file
+4. How to use docker compose file to create services
+5. Basic Commands
+
+
+TIPS
+
+
+Docker compose
+
+tool for defining & running multi-container docker applications
+use yaml files to configure application services (docker-compose.yml)
+can start all services with a single command : docker compose up
+can stop all services with a single command : docker compose down
+can scale up selected services when required
+
+
+Step 1 : install docker compose
+   (already installed on windows and mac with docker)
+   docker-compose -v
+
+   2 Ways
+
+   1.  https://github.com/docker/compose/rel...
+
+   2. Using PIP
+    pip install -U docker-compose
+
+Step 2 : Create docker compose file at any location on your system
+   docker-compose.yml
+
+
+version: '3'
+services:
+  web:
+    image: nginx
+  database:
+    image: redis
+
+
+
+Step 3 : Check the validity of file by command
+    docker-compose config
+
+Step 4 : Run docker-compose.yml file by command
+   docker-compose up -d
+
+Steps 5 : Bring down application by command
+   docker-compose down
+
+TIPS
+How to scale services
+
+—scale
+docker-compose up -d --scale database=4
+
+
+Day3
+====
+
+Docker Volume
+===============
+
+1. What are Volumes
+2. How to create / list / delete volumes
+3. How to attach volume to a container
+4. How to share volume among containers
+5. What are bind mounts
+
+Volumes are the preferred mechanism for persisting data generated by and used by Docker containers
+
+
+docker volume  //get information
+docker volume create
+docker volume ls
+docker volume inspect
+docker volume rm
+docker volume prune
+
+
+
+Use of Volumes
+===================
+Decoupling container from storage
+Share volume (storage/data) among different containers
+Attach volume to container
+On deleting container volume does not delete
+
+
+
+Commands
+docker run --name MyJenkins1 -v myvol1:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins
+
+
+docker run --name MyJenkins2 -v myvol1:/var/jenkins_home -p 9090:8080 -p 60000:50000 jenkins
+
+docker run --name MyJenkins3 -v /Users/raghav/Desktop/Jenkins_Home:/var/jenkins_home -p 9191:8080 -p 40000:50000 jenkins
+
+
+References
+https://hub.docker.com/_/jenkins/
+https://docs.docker.com/storage/volumes/
+
+
+
+NOTES
+
+By default all files created inside a container are stored on a writable container layer
+
+The data doesn’t persist when that container is no longer running
+
+A container’s writable layer is tightly coupled to the host machine where the container is running. You can’t easily move the data somewhere else.
+
+Docker has two options for containers to store files in the host machine
+so that the files are persisted even after the container stops
+
+VOLUMES  and  BIND MOUNTS
+
+Volumes are stored in a part of the host filesystem which is managed by Docker
+Non-Docker processes should not modify this part of the filesystem
+Bind mounts may be stored anywhere on the host system
+Non-Docker processes on the Docker host or a Docker container can modify them at any time
+In Bind Mounts, the file or directory is referenced by its full path on the host machine.
+
+
+Volumes are the best way to persist data in Docker
+
+volumes are managed by Docker and are isolated from the core functionality of the host machine
+
+A given volume can be mounted into multiple containers simultaneously.
+
+When no running container is using a volume, the volume is still available to Docker and is not removed automatically. You can remove unused volumes using docker volume prune.
+
+When you mount a volume, it may be named or anonymous.
+
+Anonymous volumes are not given an explicit name when they are first mounted into a container
+
+Volumes also support the use of volume drivers, which allow you to store your data on remote hosts or cloud providers, among other possibilities.
+
+
+
+
+day2
+=======
+
+docker pull centos
+
+docker run -it centos bash
+
+
+docker run -it ubuntu bash
+
+//create folders and files
+
+//exit
+
+To Login
+==========
+docker login
+
+To commit the changes in container
+======================================
+
+docker commit -m "Added new folders" -a "Pradeep Chinchole" 2886b219bb66 pradeepch82/pradeep-ubuntu:latest
+
+To push the images
+==================
+
+docker push pradeepch82/pradeep-ubuntu:latest
+
+
+
+
+
+port forwardization
+=====================
+
+docker run -it -p 192.168.99.100:8000:8080 tomcat
+
+docker run -it -p 192.168.99.100:3001:27017 mongo
+
+docker run -it -p 192.168.99.100:3306:3306 mysql
+
+
+
+
+Linking Docker containers with Links
+===========================================
+Links allow the containers to discover each other and securely transfer the information about one container to another container.
+
+Syntax
+=======
+
+docker run --name <local_container_ name> --link <localcontainer name>:<Actual Container Name>
+
+docker pull mysql
+docker run --name pcmysql -e MYSQL_ROOT_PASSWORD=admin -d mysql:latest 
+docker run --name pc-mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+docker pull wordpress
+docker run --name pcwordpress --link pc-mysql:mysql -p 8080:80 -d wordpress
+
+
+
+
+
+Presentation Layer        Service Layer     Data Access Layer     Data Layer
+================================================================================
+Angular                   Spring Boot       JPAReposiotry         MySql
+=================================================================================
+
+
+http://localhost:8080/cms/employees       GET  all employees
+http://localhost:8080/cms/employees/101   GET  employee by id
+http://localhost:8080/cms/employees/101   DELETE employee by id
+http://localhost:8080/cms/employees/101   PUT   update employee by id
+http://localhost:8080/cms/employees       POST  add employee
+
+
+
+
+
+
+Angular ->Spring Boot-> JPARepository -> MySQL  using Docker
+
+
+https://www.svenguthe.de/tutorials/docker/dockerangularspringbootmysql/
+
+
+
+
+ 
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
