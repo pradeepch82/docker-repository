@@ -22,6 +22,84 @@ The whole idea of Docker is for developers to easily develop applications, ship 
 
 =>Since Docker containers are pretty lightweight, they are very easily scalable.
 
+====================================================================
+7-April-2020
+
+============================
+To create a container from image only first time
+===================================================
+docker run --name a-centos -it centos 
+
+docker start a-centos
+docker stop a-centos
+docker rm a-centos
+docker logs a-centos
+docker ps
+docker ps -a
+docker exec -it a-centos bash
+docker rm $(docker ps -a -q)
+
+
+docker run --name a-centos -it centos bash
+
+docker run --name b-centos -it centos bash
+
+docker network inspect bridge
+
+docker exec -it a-centos bash
+
+# ping 172.17.0.3
+
+
+
+docker internall uses networking concepts
+==========================================
+bridge
+host
+none
+
+
+
+mysql
+============
+docker run --name p-mysql -e MYSQL_ROOT_PASSWORD=pradeep -d mysql
+
+docker run --name p-mysql -e MYSQL_ROOT_PASSWORD=pradeep -p 3232:3306 -d mysql:5.6
+
+
+docker logs p-mysql
+
+docker exec -it p-mysql bash
+
+#mysql -uroot -ppradeep
+
+mysql> show databases
+
+
+======================================
+web servers :httpd    default port :80
+            :nginx    default port :80
+            :mysql    default port :3306
+            :mongodb  default port :27017   
+
+
+docker run --name a-nginx -p  1111:80 -d nginx
+docker run --name b-nginx -p  2222:80 -d nginx
+docker run --name c-nginx -p  3333:80 -d nginx
+
+
+docker exec -it a-nginx bash
+echo "<h1>Hello A-NgInx Server </h1>" > /usr/share/nginx/html/index.html
+
+docker exec -it b-nginx bash
+echo "<h1>Hello B-NgInx Server </h1>" > /usr/share/nginx/html/index.html
+
+docker exec -it c-nginx bash
+echo "<h1>Hello C-NgInx Server </h1>" > /usr/share/nginx/html/index.html
+
+
+
+
 
 
 
@@ -68,20 +146,20 @@ Basic
 : docker info
 : docker --help
 : docker login
-————————————
+è¦§è¦§è¦§è¦§è¦§è¦§
 Images
 : docker images
 : docker pull
 : docker push
 : docker rmi
-————————————
+è¦§è¦§è¦§è¦§è¦§è¦§
 Containers
 : docker ps
 : docker run 
 : docker start
 : docker stop
 : docker pause
-————————————
+è¦§è¦§è¦§è¦§è¦§è¦§
 System
 : docker stats
 : docker system df
@@ -175,8 +253,8 @@ Can be stored locally or remote
 : docker pull image
 : docker images
 : docker images -q
-: docker images -f “dangling=falseE
-: docker images -f “dangling=falseE-q
+: docker images -f é›»angling=falseãƒ»
+: docker images -f é›»angling=falseãƒ»-q
 
 : docker run image
 : docker rmi image
@@ -354,7 +432,7 @@ Steps 5 : Bring down application by command
 TIPS
 How to scale services
 
-—scale
+è€€cale
 docker-compose up -d --scale database=4
 
 
@@ -410,9 +488,9 @@ NOTES
 
 By default all files created inside a container are stored on a writable container layer
 
-The data doesn’t persist when that container is no longer running
+The data doesnç¨š persist when that container is no longer running
 
-A container’s writable layer is tightly coupled to the host machine where the container is running. You can’t easily move the data somewhere else.
+A containerç—´ writable layer is tightly coupled to the host machine where the container is running. You canç¨š easily move the data somewhere else.
 
 Docker has two options for containers to store files in the host machine
 so that the files are persisted even after the container stops
