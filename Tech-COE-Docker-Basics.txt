@@ -22,6 +22,60 @@ The whole idea of Docker is for developers to easily develop applications, ship 
 
 =>Since Docker containers are pretty lightweight, they are very easily scalable.
 
+
+
+
+Docker Basic Commands
+=====================
+
+Basic
+: docker version
+: docker -v 
+: docker --version 
+: docker info
+: docker --help
+: docker login
+
+————————————
+Images
+: docker images                        To list the images
+: docker images -q                     To list the images
+: docker pull                          To pull tha image
+: docker rmi                           To remove one or more iamges
+: docker rmi $(docker images -q)       To remove all images
+
+————————————
+Containers
+: docker ps                                                 shows only running cotainers(use -a for show all containers))
+: docker ps -a                                              shows all containers
+: docker rm <container-name>                                remove one or more containers
+: docker rm $(docker ps -a -q)                              remove all containers
+: docker run <image-name>                                   create a container from image (first time used to container)
+: docker start -i <container-name>                          To start the stoped container
+: docker stop <container-name>                              To stop running container
+: docker logs <container-name>                              To sess logs of contianer
+: docker exec -it <container-name> bash                     To interact with container
+: docker run --name a-centos -it centos bash                container will not be removed on exit
+: docker run --name b-centos --rm -it centos bash           container will be removed on exit
+  
+————————————
+System
+: docker stats
+: docker system df
+: docker system prune (to stop all stoped containers)
+
+
+
+Online PRactice for docker:
+
+https://labs.play-with-docker.com/
+
+
+
+
+
+
+
 ====================================================================
 7-April-2020
 
@@ -97,6 +151,102 @@ echo "<h1>Hello B-NgInx Server </h1>" > /usr/share/nginx/html/index.html
 docker exec -it c-nginx bash
 echo "<h1>Hello C-NgInx Server </h1>" > /usr/share/nginx/html/index.html
 
+
+8-Apr-2020
+===========
+
+To create image from running container
+========================================
+
+docker run --name p-apache -d -p 9999:80 httpd
+
+echo  "<h1>Hello Welcome To Custom Apache Image</h1>" >  /usr/local/apache2/htdocs/index.html
+
+docker commit -m 'Index File Content Changed' -a 'Pradeep Chinchole <pradeepch82@gmail.com>' p-apache pradeepch82/apache:1.1
+
+docker login
+username :pradeepch82@gmail.com
+password :password
+
+docker push pradeepch82/apache:1.1
+
+docker run --name b-apache -p 4545:80 -d pradeepch82/apache:1.1
+
+
+Dockerfile : 
+A text file with instructions to build image
+Automation of Docker Image Creation
+
+FROM 
+MAINTAINER 
+RUN
+ENTRYPOINT
+CMD
+
+
+Step 1 : Create a file named Dockerfile
+Step 2 : Add instructions in Dockerfile
+Step 3 : Build dockerfile to create image
+Step 4 : Run image to create container
+
+Example  :Dockerfile
+
+FROM ubuntu
+MAINTAINER Pradeep Chinchole <pradeepch82@gmail.com>
+RUN apt-get update
+
+CMD ["echo", "Hello World..! from my first docker iamge1"]
+CMD ["echo", "Hello World..! from my first docker iamge2"]
+CMD ["echo", "Hello World..! from my first docker iamge3"]
+CMD ["echo", "Hello World..! from my first docker iamge4"]
+
+COMMANDS
+: docker build directoryOfDocekrfile
+: docker build -t ImageName:Tag directoryOfDocekrfile
+: docker run imageid 
+
+
+Docker File Spring Boot Java Application
+================================================
+FROM openjdk:8
+ADD target/docker-spring-boot.jar docker-spring-boot.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","docker-spring-boot.jar"]
+
+
+======>
+
+docker build -t pradeepch82/spring-dokcer-demo:1.1 .
+
+docker login
+
+docker push pradeepch82/spring-docker-demo:1.1
+
+
+
+Docker file for MYSQL
+=======================
+# Derived from official mysql image (our base image)
+FROM mysql
+# Add a database
+ENV MYSQL_DATABASE company
+ENV MYSQL_ROOT_PASSWORD admin
+ENV MYSQL_USER pradeep
+ENV MYSQL_PASSWORD pradeep
+# Add the content of the sql-scripts/ directory to your image
+# All scripts in docker-entrypoint-initdb.d/ are automatically
+# executed during container startup
+ADD script.sql /docker-entrypoint-initdb.d/
+
+
+script.sql
+===========
+use company;
+create table employee(id int primary key,name text,salary double);
+insert into employee values(101,'RAM',10000.00);
+insert into employee values(102,'RAHIM',20000.00);
+insert into employee values(103,'DAVID',30000.00);
+insert into employee values(104,'PRADEEP',40000.00);
 
 
 
@@ -552,19 +702,6 @@ docker push pradeepch82/pradeep-ubuntu:latest
 
 
 
-
-port forwardization
-=====================
-
-docker run -it -p 192.168.99.100:8000:8080 tomcat
-
-docker run -it -p 192.168.99.100:3001:27017 mongo
-
-docker run -it -p 192.168.99.100:3306:3306 mysql
-
-
-
-
 Linking Docker containers with Links
 ===========================================
 Links allow the containers to discover each other and securely transfer the information about one container to another container.
@@ -605,30 +742,4 @@ Angular ->Spring Boot-> JPARepository -> MySQL  using Docker
 
 
 https://www.svenguthe.de/tutorials/docker/dockerangularspringbootmysql/
-
-
-
-
- 
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
