@@ -51,6 +51,8 @@ Containers
 : docker rm <container-name>                                remove one or more containers
 : docker rm $(docker ps -a -q)                              remove all containers
 : docker run <image-name>                                   create a container from image (first time used to container)
+: docker run -d <image-name>                                create a container from image in detached mode
+: docker run -it <image-name> bash                          create a container from image in interactive mode
 : docker start -i <container-name>                          To start the stoped container
 : docker stop <container-name>                              To stop running container
 : docker logs <container-name>                              To sess logs of contianer
@@ -66,14 +68,9 @@ System
 
 
 
-Online PRactice for docker:
+Online practice for docker:
 
 https://labs.play-with-docker.com/
-
-
-
-
-
 
 
 ====================================================================
@@ -177,11 +174,13 @@ Dockerfile :
 A text file with instructions to build image
 Automation of Docker Image Creation
 
-FROM 
-MAINTAINER 
-RUN
-ENTRYPOINT
-CMD
+FROM           :Base Image    
+MAINTAINER     :Author Name
+ENV            :Environment variable
+ADD            :ADD the files while buiding the image
+RUN            :To install libraries/packages (executed while building the image)
+ENTRYPOINT     :Executed at run time and we can not override the commands
+CMD            :Executed at run time and we can override by passing command line argument
 
 
 Step 1 : Create a file named Dockerfile
