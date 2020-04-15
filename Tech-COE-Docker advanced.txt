@@ -122,12 +122,9 @@ Commands:
 To monitor Swarm cluster
 ========================
 
-clone the below project
-=======================
+https://github.com/imixs/imixs-cloud/tree/docker-swarm
 
-git clone https://github.com/imixs/imixs-cloud.git
 
-docker stack deploy -c management/monitoring/docker-compose.yml monitoring
 
 
 
