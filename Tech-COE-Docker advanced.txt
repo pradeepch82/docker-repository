@@ -1,19 +1,95 @@
-Docker Network commands
+Manage networks
+================
+Commands:
+  connect     Connect a container to a network
+  create      Create a network
+  disconnect  Disconnect a container from a network
+  inspect     Display detailed information on one or more networks
+  ls          List networks
+  prune       Remove all unused networks
+  rm          Remove one or more networks
+
+
+To Create Swarm Cluster
 =========================
+$ docker swarm init --advertise-addr=192.168.0.18
 
-docker network ls
-docker network create networkName
-docker network rm networkName
-docker network inspect networkName
-docker run --name containerName -d -it --net networkName imageName options
-docker network  connect networkName containerName
-docker attach containerName
-docker exec -it containerName options
-docker network  disconnect networkName containerName
-docker network prune
+Swarm initialized: current node (fe9nz97mhl4pasmewsyjczlqb) is now a manager.
+To add a worker to this swarm, run the following command:
 
-day1
-====
+docker swarm join --token SWMTKN-1-0k8cln5ifhaw9bqtjzwdvlptpgt7yollbhbrb0iecpb3no8yd9-0qdpx13zctp93enffe9si4im1 192.168.0.18:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+[node1] (local) root@192.168.0.18 ~
+$ 
+
+Manage Swarm
+=============
+
+Commands:
+  ca          Display and rotate the root CA
+  init        Initialize a swarm
+  join        Join a swarm as a node and/or manager
+  join-token  Manage join tokens
+  leave       Leave the swarm
+  unlock      Unlock swarm
+  unlock-key  Manage the unlock key
+  update      Update the swarm
+
+
+
+Manage services
+=================
+
+Commands:
+  create      Create a new service
+  inspect     Display detailed information on one or more services
+  logs        Fetch the logs of a service or task
+  ls          List services
+  ps          List the tasks of one or more services
+  rm          Remove one or more services
+  rollback    Revert changes to a service's configuration
+  scale       Scale one or multiple replicated services
+  update      Update a service
+
+
+
+ docker service create --replicas 5 --name p-nginx -p 1111:80 nginx
+
+
+
+
+
+Manage Swarm nodes
+================
+
+Commands:
+  demote      Demote one or more nodes from manager in the swarm
+  inspect     Display detailed information on one or more nodes
+  ls          List nodes in the swarm
+  promote     Promote one or more nodes to manager in the swarm
+  ps          List tasks running on one or more nodes, defaults to current node
+  rm          Remove one or more nodes from the swarm
+  update      Update a node
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Containers in default bridge Network
 =====================================
@@ -24,6 +100,19 @@ NETWORK ID          NAME                DRIVER              SCOPE
 33d14a88f43f        bridge              bridge              local
 45d14a88f43f        host                host                local
 46d14a88f43f        none                none                local
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
