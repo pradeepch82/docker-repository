@@ -10,6 +10,51 @@ Commands:
   rm          Remove one or more networks
 
 
+
+docker network ls
+
+NETWORK ID          NAME                DRIVER              SCOPE
+33d14a88f43f        bridge              bridge              local
+45d14a88f43f        host                host                local
+46d14a88f43f        none                none                local
+
+
+
+Containers in default bridge Network
+=====================================
+
+docker run --name centos-1 -it centos bash
+
+docker run --name centos-2 -it centos bash
+
+
+docker ls
+docker inspect bridge
+
+
+Containers in custom bridge Network
+=====================================
+
+docker network create myNetwork
+
+docker run --name centos-1 -net myNetwork -it centos bash
+
+docker run --name centos-2 -net myNetwork -it centos bash
+
+
+
+
+Containers in host  Network
+=====================================
+
+docker network create myNetwork
+
+docker run --name centos-3 -net host -it centos bash
+
+docker run --name centos-4 -net host -it centos bash
+
+
+
 To Create Swarm Cluster
 =========================
 $ docker swarm init --advertise-addr=192.168.0.18
@@ -74,6 +119,15 @@ Commands:
   update      Update a node
 
 
+To monitor Swarm cluster
+========================
+
+clone the below project
+=======================
+
+git clone https://github.com/imixs/imixs-cloud.git
+
+docker stack deploy -c management/monitoring/docker-compose.yml monitoring
 
 
 
@@ -91,15 +145,6 @@ Commands:
 
 
 
-Containers in default bridge Network
-=====================================
-
-docker network ls
-
-NETWORK ID          NAME                DRIVER              SCOPE
-33d14a88f43f        bridge              bridge              local
-45d14a88f43f        host                host                local
-46d14a88f43f        none                none                local
 
 
 
@@ -113,26 +158,6 @@ NETWORK ID          NAME                DRIVER              SCOPE
 
 
 
-
-
-
-docker run --name centos-1 -it centos bash
-
-docker run --name centos-2 -it centos bash
-
-
-docker ls
-docker inspect bridge
-
-
-Containers in custom bridge Network
-=====================================
-
-docker network create myNetwork
-
-docker run --name centos-1 -net myNetwork -it centos bash
-
-docker run --name centos-2 -net myNetwork -it centos bash
 
 
 
