@@ -125,31 +125,35 @@ To monitor Swarm cluster
 https://github.com/imixs/imixs-cloud/tree/docker-swarm
 
 
+Docker file for  Angular or Node JS application
+================================================
+FROM node:10
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# Bundle app source
+COPY . .
+
+EXPOSE 3000
+CMD [ "npm", "start" ]
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Docker File Spring Boot Java Application
+=========================================
+FROM openjdk:8
+ADD target/docker-spring-boot.jar docker-spring-boot.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","docker-spring-boot.jar"]
 
 
 
