@@ -180,6 +180,30 @@ volumes:
 
 
 
+Dokcer Compose  (Expres JS + MySQL)
+=====================================
+version: '3.3'
+
+services:
+   database:
+     image: pradeepch82/ems-mysql:1.1
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+   express-ems-app:
+     depends_on:
+       - database
+     image: pradeepch82/express-ems-app:1.2
+     ports:
+       - "3000:3000"
+     restart: always
+     
+volumes:
+    db_data: {}
+
+
+
+
 
 
 
