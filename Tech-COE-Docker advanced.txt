@@ -205,6 +205,37 @@ volumes:
 
 
 
+Docker Compose for (Angular + Spring Boot + MySQL)
+===================================================
+Dokcer Compose  (Spring Boot + MySQL)
+=====================================
+version: '3.3'
+
+services:
+   database:
+     image: pradeepch82/ems-mysql:1.1
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+   ems-spring-boot:
+     depends_on:
+       - database
+     image: pradeepch82/pvc-spring-boot-ems:1.2
+     ports:
+       - "1212:8080"
+     restart: always
+   ems-angular-app:
+     depends_on:
+       - ems-spring-boot
+     image: pradeepch82/ems-angular-app:1.1
+     ports:
+       - "4211:80"
+     restart: always
+     
+volumes:
+    db_data: {}
+
+
 
 
 
