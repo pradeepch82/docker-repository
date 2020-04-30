@@ -243,6 +243,47 @@ volumes:
 
 
 
+docker-compse with custom networks names and container names 
+============================================================
+version: '3'
+
+services:
+  database:
+    image: pradeepch82/ems-mysql:1.1
+    container_name: database
+    volumes:
+     - dockerAngularSpringDatabaseData:/var/lib/mysql
+    networks:
+     - backendNetwork
+     
+  spring-boot-ems:
+    image: pradeepch82/pvc-spring-boot-ems:1.2
+    container_name: spring-boot-ems
+    ports:
+      - 1212:8080
+    depends_on:
+      - database
+    networks:
+      - backendNetwork
+      - frontendNetwork
+     
+  ems-angular-app:
+    image: pradeepch82/ems-angular-app:1.2
+    container_name: angular
+    ports: 
+      - 4200:80
+    depends_on:
+      - spring-boot-ems
+    networks:
+      - frontendNetwork
+
+volumes:
+  dockerAngularSpringDatabaseData:
+  
+networks:
+  backendNetwork:
+  frontendNetwork:
+
 
 
 
