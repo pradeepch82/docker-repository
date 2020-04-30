@@ -285,6 +285,72 @@ networks:
   frontendNetwork:
 
 
+Stack
+=====
+
+Manage Docker stacks
+
+Options:
+      --orchestrator string   Orchestrator to use (swarm|kubernetes|all)
+
+Commands:
+  deploy      Deploy a new stack or update an existing stack
+  ls          List stacks
+  ps          List the tasks in the stack
+  rm          Remove one or more stacks
+  services    List the services in the stack
+
+
+
+docker-compse with swarm
+============================
+version: '3'
+
+services:
+  database:
+    image: pradeepch82/ems-mysql:1.1
+    deploy:
+      replicas: 2
+    container_name: database
+    volumes:
+     - dockerAngularSpringDatabaseData:/var/lib/mysql
+    networks:
+     - backendNetwork
+     
+  spring-boot-ems:
+    image: pradeepch82/pvc-spring-boot-ems:1.2
+    deploy:
+      replicas: 2
+    ports:
+      - 1212:8080
+    depends_on:
+      - database
+    networks:
+      - backendNetwork
+      - frontendNetwork
+     
+  ems-angular-app:
+    image: pradeepch82/ems-angular-app:1.2
+    deploy:
+      replicas: 2
+    ports: 
+      - 4200:80
+    depends_on:
+      - spring-boot-ems
+    networks:
+      - frontendNetwork
+
+volumes:
+  dockerAngularSpringDatabaseData:
+  
+networks:
+  backendNetwork:
+  frontendNetwork:
+
+
+
+docker stack deploy --compose-file docker-compose.yml angular-spring-mysql-stack
+
 
 
 
