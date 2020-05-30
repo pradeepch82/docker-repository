@@ -1,0 +1,323 @@
+Dial-in number (IN): 0172 510 0948
+Access code: 438768#
+International dial-in numbers: https://fccdl.in/i/pradeepch827
+Online meeting ID: pradeepch827
+Join the online meeting: https://join.freeconferencecall.com/pradeepch827
+
+Day1
+====
+1.Why Docker?
+================
+
+If you’re looking to improve scalability, reduce overhead costs, and standardize software deployments across multiple machines and platforms, containers and virtual machines (VMs) are two of the top approaches in use today. They’re not mutually exclusive, either—both can help your IT team become more agile and responsive to business demands. However, the concepts can be confusing. 
+
+Both containers and virtual machines (VMs) are software technologies that create self-contained virtual packages. Beyond that commonality, they differ in their operations, characteristics and use cases. 
+
+So, to distinguish between containers and VMs, we’ve rounded up the basics on each.
+
+What are virtual machines and virtualization?
+Before containers came along, the “virtual machine” was the technology of choice for optimizing server capacity. Programmed to emulate the hardware of a physical computer with a complete operating system, VMs (and hypervisors) make it possible to run what appear to be multiple computers with multiple different operating systems on the hardware of a single physical server. 
+
+What is a hypervisor?
+Virtualization is not possible without the hypervisor. A hypervisor, or virtual machine monitor, is the software or firmware layer that enables multiple operating systems to run side-by-side, all with access to the same physical server resources. The hypervisor orchestrates and separates the available resources (computing power, memory, storage, etc.), aligning a portion to each virtual machine as needed.
+
+What are the advantages and disadvantages of virtual machines?
+Visually, each virtual machine image looks like a data folder. Each can be moved and copied as easily as you can move and copy other kinds of files. In this way, your team can centralize workloads and run several different operating systems without increasing overhead, a huge advantage over on-premises hardware. You can also update apps and the OS without affecting the end-user experience.
+
+However, virtual machines are not without their disadvantages:
+
+Since each VM includes an OS and a virtual copy of all the hardware the OS requires, VMs require significant RAM and CPU resources
+
+Due to the increase in virtual copies and required resources, the software development life cycle is more complex with VMs
+
+Moving VMs between public clouds, private clouds and traditional data centers can be challenging
+
+What are containers and containerization?
+Where shipping containers hold products comprising many different parts, a software container encapsulates an application—often a single executable service or microservice—along with its libraries, frameworks and other components.
+Just as the use of shipping containers transformed global logistics, the rise of the software container is transforming software development and deployment.
+
+The container shares the kernel of the host OS with other containers, and the shared part of the OS is read-only. Therefore, the containers are lightweight, so you can deploy multiple containers on a single server (or a VM)—no more dedicating an entire server to a single application. And, you only have one OS to maintain. Scaling up becomes fast and easy, without the need for more server space.  
+
+Containerization solves any number of problems for software development and deployment. 
+
+In fact, that’s why we adopted the concept ourselves in migrating our managed services portal to Google Cloud.  
+
+But, as with virtual machines, containers have their disadvantages: 
+
+All containers on a particular host machine must be designed to run on the same kind of OS. Containers based on a different OS will require a different host. 
+
+Because the OS is shared, a security vulnerability in the OS kernel is a threat to all containers on the host machine.  
+
+Containerization is still a new solution with wide variances in implementation plans and skilled resources, making adoption a challenging process for some
+
+Containerization or virtualization: What’s the right path for you? 
+Virtualization enables you to run multiple operating systems on the hardware of a single physical server, while containerization enables you to deploy multiple applications using the same operating system on a single virtual machine or server. 
+
+Virtual machines are great for supporting applications that require an operating system’s full functionality when you want to deploy multiple applications on a server, or when you have a wide variety of operating systems to manage. Containers are a better choice when your biggest priority is to minimize the number of servers you’re using for multiple applications.
+
+Your use case matters too. Containers are an excellent choice for tasks with a much shorter lifecycle. With their fast set up time, they are suitable for tasks that may only take a few hours. Virtual machines have a longer lifecycle than containers, and are best used for longer periods of time.
+
+The way forward for your organization will depend on everything from the size of your operations and workflows to your IT culture and skill sets. And, containerization and virtualization technologies are coming together in some interesting new ways that could influence your decision making. 
+
+Ultimately, virtualization and containerization may both have a place in your IT strategy. Consider your ultimate goals, immediate use cases, and team skillset before setting down a specific path. At Burwood Group, we recently leveraged containerization to run our own client-facing managed services portal: read about the project scope and outcomes here. 
+
+
+
+
+Docker is a software Contairnerization platform
+
+Difference Virtualization vs Contairnerization
+==================================================
+Virtulization
+==============
+
+Host os=> Hypervisor=>(Guest os1,Guest os2....)=>(Bin& Lib, Bin & Lib 2.....)=>(App1,App2,.....)
+
+1.Virtualization is a technique of importing a guest os on the top of host os.
+2.This technique is revolution in the beginning because Developers run the different application in different vms all running on same host.
+3.This eliminate the need of extra h/w resource and enable the backup allowing the the recovery in failure conditions
+4.lowering the total cost of foundation.
+ Advantages
+ ==========
+   1.Multiple OS in the same machine
+   2.Easy Maintainance and Recovery
+   3.Lower total cost of Ownership
+
+Disadvantages
+=============
+   1.Multiple VMs Lead to unstable performance
+   2.Hypervisors are not as efficient as a host os
+   3.Long Boot up process (Approximate 1 minute)
+   4.This is using the host system resources
+   5.This is very critical in case of real time applications
+   where fast processing is required. 
+   6.scaling the no of vms is tedious and costly affiar
+
+
+Contairnerization
+==================
+Host os=>Container Engine=>(Bin& Lib, Bin & Lib 2.....) =>(App1,App2)
+
+1.Contairnerization is Just Virtualization at OS Level
+2.Contairnerization is also a type of Virtualization.
+3.It is more efficient as there is no guest os.
+4.Binaries and Libraries of the containers are on the host kernel which makes processing and execution very fast
+5.Even Booting takes fraction of second. 
+
+ 
+
+ Virtualization brings the abstraction at h/w where as Contairnerization brings abstraction to software
+
+   Advantages
+   ==========
+	1.Containers on same os kernel are lighter and smaller
+	2.Better Resource utilization Compared to VMS
+	3.Short Boot up process (1/20th of second )
+
+
+
+Which of the below option is incorrect ?
+
+1. Contairnerization  is replacing Virtualization 
+2. Contairnerization brings process level isolation
+3. Hypervisors Manage the VMS.
+
+
+
+What is Docker ?
+==============
+Docker is a Contairnerization  platform which packages your 
+application and all its dependencies together in the form of containers
+so as to ensure that your application works seamlessly in any environment 
+be it Dev/Test/Prod
+
+Host Os=>Docker Engine=> (App1[bin & lib],App2[bin & lib])=>(container1 ,container2)
+
+The no of system scaled up easily.
+
+=============================================================
+        VMS                                Dockers
+=============================================================
+
+        Elephants           Size           Rabbit
+
+        Tortoise           Speed           Chita
+
+	No integration     Integration     comfortably integrated with Devops tools fo automating the manual process.
+
+              
+
+Resource and Memory Utilization
+======================================
+
+
+Host os 16 GB Ram
+==================
+         In Case of virtual Macine
+         =============================
+
+     Allocation =>  VMs    => Memory Used    =>  Memory Un used
+        6 GB    =>  VM 1   =>   4 GB         =>  2 GB
+        4 GB    =>  VM 2   =>   1 GB         =>  3 GB
+        6 GB    =>  VM 3   =>   2 GB         =>  2 GB
+==========================================================
+       16 GB                   9 GB              7 GB
+
+7  GB RAM is blocked
+7  GB RAM cannot be alloted to new vm.
+
+ 
+
+Host os 16 GB Ram
+==================
+         In Case of Docker
+         =============================
+
+     Allocation =>  Docker       => Memory Used    
+                =>  Container1   =>   4 GB         
+                =>  Container2   =>   1 GB         
+                =>  Container3   =>   2 GB         
+==========================================================
+       16 GB                         9 GB             7 GB
+
+
+No Ram is allocated for unused
+7  GB RAM is unused 
+7  GB RAM can be alloted to new containerization.
+
+
+Building and deployment 
+===============================
+
+In case of VMs
+             New Builds=>Multiple Guest OS =>Separate Libraries =>Heavy=>More Time
+
+In case of Docker
+
+             New Builds=>Same Host OS =>Separate Libraries =>Light Weight  => Less Time
+
+
+
+Integration
+=============
+In case of Vms Integration is possible but costly due to infrastructur requirement
+and not easily scalable.
+
+In case of Docker Integration is Faster,Cheap and scalable.
+
+
+Q.Which of the follwing option is correct w.r.t creating Docker containers. ?
+================================================================================
+
+1.I can build my own image and use it for creating a Docker container. T
+ 
+2.I can pull the image from Docker hub and then run the Docker image. T
+ 
+3.I can create a Docker container without Docker image. F
+
+Docker containers can be created by executing the docker image hence it is not 
+possible to run a container without building the image.
+
+
+Q.Where does the Docker daemon stores the Docker images?
+
+1.Docker Client
+2.Docker Host
+3.Docker Registry
+
+
+All the docker images are stored  in the Docker registry which can be either
+local repository or a remote Docker hub.
+
+Question
+=========
+Suppose I have a System with 4 GB RAM and I want to run 4 instances of particular Devops tool 
+then which of the below is the best choice?
+
+1. 4 VMS with 4 different instances of that tool
+2. 1 VM  with 4 different instances of that tool
+3. 4 Docker containers with different instances of that tool
+
+
+2.What is a docker ?
+=====================
+Docker is a container management service.
+The keywords of Docker are develop, ship and run anywhere.
+The whole idea of Docker is for developers to easily develop applications, ship them into containers which can then be deployed anywhere.
+
+3.Features of Docker
+====================
+
+=>Docker has the ability to reduce the size of development by providing a smaller footprint of the operating system via containers.
+
+=>With containers, it becomes easier for teams across different units, such as development, QA and Operations to work seamlessly across applications.
+
+=>You can deploy Docker containers anywhere, on any physical and virtual machines and even on the cloud.
+
+=>Since Docker containers are pretty lightweight, they are very easily scalable.
+
+
+
+Online Sand box
+
+https://labs.play-with-docker.com/
+
+
+Docker Basic Commands
+=====================
+
+Basic
+: docker version
+: docker -v 
+: docker --version 
+: docker info
+: docker --help
+: docker login
+
+————————————
+Images
+: docker images                        To list the images
+: docker images -q                     To list the images
+: docker pull                          To pull tha image
+: docker rmi                           To remove one or more iamges
+: docker rmi $(docker images -q)       To remove all images
+
+————————————
+Containers
+: docker ps                                                 shows only running cotainers(use -a for show all containers))
+: docker ps -a                                              shows all containers
+: docker rm <container-name>                                remove one or more containers
+: docker rm $(docker ps -a -q)                              remove all containers
+: docker run <image-name>                                   create a container from image (first time used to container)
+: docker run -d <image-name>                                create a container from image in detached mode
+: docker run -it <image-name> bash                          create a container from image in interactive mode
+: docker start -i <container-name>                          To start the stoped container
+: docker stop <container-name>                              To stop running container
+: docker logs <container-name>                              To sees logs of contianer
+: docker exec -it <container-name> bash                     To interact with container
+: docker run --name a-centos -it centos bash                container will not be removed on exit
+: docker run --name b-centos --rm -it centos bash           container will be removed on exit
+  
+————————————
+System
+: docker stats
+: docker system df
+: docker system prune (to stop all stoped containers)
+
+Network Commands
+==================
+
+Usage:  docker network COMMAND
+
+Manage networks
+
+Commands:
+  connect     Connect a container to a network
+  create      Create a network
+  disconnect  Disconnect a container from a network
+  inspect     Display detailed information on one or more networks
+  ls          List networks
+  prune       Remove all unused networks
+  rm          Remove one or more networks
+
+Run 'docker network COMMAND --help' for more information on a command.

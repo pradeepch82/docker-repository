@@ -1,0 +1,180 @@
+Day2
+=======
+Docker Networking
+==================
+1.bridge
+2.host
+3.none
+
+
+Usage:  docker network COMMAND
+
+Manage networks
+
+Commands:
+  connect     Connect a container to a network
+  create      Create a network
+  disconnect  Disconnect a container from a network
+  inspect     Display detailed information on one or more networks
+  ls          List networks
+  prune       Remove all unused networks
+  rm          Remove one or more networks
+
+
+$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+bf1fbfe96a65        bridge              bridge              local
+d65a1441fd36        host                host                local
+5bbef6bbb2b0        none                null                local
+
+
+Default Bridge Network
+========================
+ A bridge network uses a software bridge which allows containers connected to the same bridge network to communicate, while providing  isolation from containers which are not connected to that bridge network.
+ The Docker bridge driver automatically installs rules in the host machine so that containers on different bridge networks cannot  communicate directly with each other
+ It is the Docker default networking mode which will enable the connectivity to the other interfaces of the host machine as well as  among containers.
+
+docker run --name a-centos -it centos bash
+
+docker run --name b-centos -it centos bash
+ 
+docker start a-centos b-centos
+
+
+Custom Bridge Network
+========================
+
+User-defined bridges provide automatic DNS resolution between containers.
+User-defined bridges provide better isolation.
+Containers can be attached and detached from user-defined networks on the fly.
+Each user-defined network creates a configurable bridge.
+Linked containers on the default bridge network share environment variables.
+
+docker network create pradeep-network -d bridge
+
+docker network create pradeep-network
+
+docker run --name c-centos --network pradeep-network -it centos bash
+
+docker run --name d-centos --network pradeep-network -it centos bash
+ 
+docker start c-centos d-centos
+
+docker network connect pradeep-network a-centos
+
+docker network connect pradeep-network b-centos
+
+
+docker network disconnect bridge a-centos
+docker network disconnect bridge b-centos
+
+
+docker network disconnect pradeep-network a-centos
+docker network disconnect pradeep-network b-centos
+docker network disconnect pradeep-network c-centos
+docker network disconnect pradeep-network d-centos
+
+docker network rm pradeep-network
+
+docker network prune
+
+None Network
+==============
+If you want to completely disable the networking stack on a container, you can use the --network none flag when starting the container.This mode will not configure any IP for the container and doesn’t have any access to the external network as well as for other containers. It does have the loopback address and can be used for running batch jobs.
+
+
+
+docker run --name e-centos --network none -it centos bash
+
+
+docker run --name a-nginx -p 1111:80 -d nginx
+docker run --name c-nginx -p 2222:80 -d nginx
+docker run --name d-nginx -p 3333:80 -d nginx
+docker run --name e-nginx -p 3333:80 -d nginx
+
+Host Network
+============
+In this mode container will share the host’s network stack and all interfaces from the host will be available to the container. The container’s host name will match the host name on the host system
+
+
+docker run --name f-nginx --network host -d nginx
+docker run --name f-nginx --network host -p 3232:80 -d nginx
+
+
+
+docker run --name g-nginx --network host -p 7777:80 -d nginx
+
+
+docker run --name i-nginx --network none -d nginx
+
+
+
+Creating Custom Image
+======================
+Image:(Base OS + Application + Bin & Librainries)
+
+
+1.From Container
+==================
+docker run --name p-nginx -p 8888:80 -d nginx
+
+docker commit -m "Done changes to container" -a "Pradeep Chinchole" p-nginx pradeepch82/pvc-docker-demo:1.1
+
+docker run -p 1111:80 -d pradeepch82/pvc-docker-demo:1.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
