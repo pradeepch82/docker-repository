@@ -1,0 +1,393 @@
+
+What is a Docker Swarm?
+=========================
+
+A Docker Swarm is a group of either physical or virtual machines that are running the Docker application and that have been configured to join together in a cluster. Once a group of machines have been clustered together, you can still run the Docker commands that you're used to, but they will now be carried out by the machines in your cluster. The activities of the cluster are controlled by a swarm manager, and machines that have joined the cluster are referred to as nodes.
+
+Docker swarm is a container orchestration tool, meaning that it allows the user to manage multiple containers deployed across multiple host machines..
+
+One of the key benefits associated with the operation of a docker swarm is the high level of availability offered for applications. In a docker swarm, there are typically several worker nodes and at least one manager node that is responsible for handling the worker nodes' resources efficiently and ensuring that the cluster operates efficiently.
+
+
+
+
+To create Docker Swarm
+========================
+docker swarm init --advertise-addr=192.168.0.8 
+
+Swarm initialized: current node (ki99an0dnuhzeosjz0nve6wl1) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-03r7a85clnd551byp3hnpks4g0qp834kl0lrzztzctdojqeo2x8jrhhi3ghfvj2prnn4pihxp5q 192.168.0.8:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+
+
+Usage:  docker node COMMAND
+
+Manage Swarm nodes
+
+Commands:
+  demote      Demote one or more nodes from manager in the swarm
+  inspect     Display detailed information on one or more nodes
+  ls          List nodes in the swarm
+  promote     Promote one or more nodes to manager in the swarm
+  ps          List tasks running on one or more nodes, defaults to current node
+  rm          Remove one or more nodes from the swarm
+  update      Update a node
+
+
+
+Usage:  docker service COMMAND
+
+Manage services
+
+Commands:
+  create      Create a new service
+  inspect     Display detailed information on one or more services
+  logs        Fetch the logs of a service or task
+  ls          List services
+  ps          List the tasks of one or more services
+  rm          Remove one or more services
+  rollback    Revert changes to a service's configuration
+  scale       Scale one or multiple replicated services
+  update      Update a service
+
+
+To create 3 nginx containers
+===============================
+docker run --name a-nginx -p 1111:80 -d nginx
+docker run --name b-nginx -p 2222:80 -d nginx
+docker run --name c-nginx -p 3333:80 -d nginx
+
+create p-nginx-service
+=======================
+docker service create --name p-nginx --replicas 3 --publish 1111:80 nginx
+
+docker service create --name p-cafe --replicas 10 --publish 4444:80 pradeepch82/pradeep-cafe:1.1
+
+docker service create --name p-tea --replicas 10 --publish 3333:80 pradeepch82/tea:1.1
+
+
+docker service update --replicas 10 p-tea
+
+docker service update --replicas 5 p-tea
+
+docker service update --image pradeepch82/tea:1.2 p-tea
+docker service update --image pradeepch82/tea:1.3 p-tea
+docker service update --image pradeepch82/tea:1.4 p-tea
+
+docker service update --replicas=5 --image pradeepch82/tea:1.4 p-tea
+
+docker service scale p-tea=12 p-coffee=5 p-lunch=6
+
+docker service update --image pradeepch82/tea:1.3 --publish-add published=5555,target=80 p-tea
+
+docker service update --image pradeepch82/tea:1.3 --publish-add published=1111,target=80 p-tea
+
+docker service update --image pradeepch82/tea:1.3 --publish-rm p-tea
+
+Day3
+====
+Docker Stack
+=================
+Usage:  docker stack [OPTIONS] COMMAND
+
+Manage Docker stacks
+
+Options:
+      --kubeconfig string     
+                Kubernetes config file
+      --orchestrator string   
+                Orchestrator to use
+                (swarm|kubernetes|all)
+
+Commands:
+  deploy      Deploy a new stack or update an existing stack
+  ls          List stacks
+  ps          List the tasks in the stack
+  rm          Remove one or more stacks
+  services    List the services in the stack
+
+
+
+Creating the wp-mysql-stack
+============================
+
+
+docker-compose.yml
+=====================
+version: '3.3'
+services:
+   db:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: somewordpress
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+
+   wordpress:
+     depends_on:
+       - db
+     image: wordpress:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+       WORDPRESS_DB_NAME: wordpress
+volumes:
+    db_data: {}
+
+==========================================================================
+
+docker stack deploy --compose-file docker-compose.yml wp-mysql-stack
+docker stack ls
+docker stack ps wp-mysql-stack
+docker stack services wp-mysql-stack
+docker stack rm wp-mysql-stack
+
+
+
+
+
+
+docker-compose.yml
+===================
+version: '3.3'
+
+services:
+   database:
+     image: pradeepch82/ems-mysql:1.1
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+   ems-spring-boot:
+     depends_on:
+       - database
+     image: pradeepch82/pvc-spring-boot-ems:1.2
+     ports:
+       - "1212:8080"
+     restart: always
+     
+volumes:
+    db_data: {}
+
+
+docker stack deploy --compose-file docker-compose.yml pvc-springboot-mysql
+
+
+
+docker-compose.yml
+===================
+version: '3.3'
+
+services:
+   database:
+     image: pradeepch82/ems-mysql:1.1
+     deploy:
+      replicas: 3
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     networks:
+       - backendNetwork
+       - frontendNetwork
+   ems-spring-boot:
+     depends_on:
+       - database
+     image: pradeepch82/pvc-spring-boot-ems:1.2
+     deploy:
+      replicas: 1
+     ports:
+       - "1212:8080"
+     restart: always
+     networks:
+       - frontendNetwork
+  
+volumes:
+    db_data: {}
+networks:
+  backendNetwork:
+  frontendNetwork:
+
+
+
+docker stack deploy --compose-file docker-compose.yml pvc-springboot-mysql
+
+
+============================================
+docker-compse with swarm
+============================
+version: '3'
+
+services:
+  database:
+    image: pradeepch82/ems-mysql:1.1
+    deploy:
+      replicas: 2
+    container_name: database
+    volumes:
+     - dockerAngularSpringDatabaseData:/var/lib/mysql
+    networks:
+     - backendNetwork
+     
+  spring-boot-ems:
+    image: pradeepch82/pvc-spring-boot-ems:1.2
+    deploy:
+      replicas: 3
+    ports:
+      - 1212:8080
+    depends_on:
+      - database
+    networks:
+      - backendNetwork
+      - frontendNetwork
+     
+  ems-angular-app:
+    image: pradeepch82/ems-angular-app:1.2
+    deploy:
+      replicas: 3
+    ports: 
+      - 4200:80
+    depends_on:
+      - spring-boot-ems
+    networks:
+      - frontendNetwork
+
+volumes:
+  dockerAngularSpringDatabaseData:
+  
+networks:
+  backendNetwork:
+  frontendNetwork:
+
+
+
+docker stack deploy --compose-file docker-compose.yml angular-spring-mysql-stack
+
+
+
+
+
+Day4
+=====================================================================
+To start a single container from image                   : docker run
+
+To start a multiple container in one command             : docker-compose up -d 
+
+To start a multiple containers via service in swarm      : docker service create
+
+To start a multiple services in swarm                    : docker stack deploy
+
+docker service update --replicas 5 pvc-springboot-mysql_database
+
+docker service scale  pvc-springboot-mysql_ems-spring-boot=3 pvc-springboot-mysql_database=7
+
+docker events --filter 'event=stop'
+docker events --filter 'event=start'
+docker events --filter 'event=create'
+
+
+
+docker volume    : used to share the data among containers
+==============
+docker volume ls
+docker volume create p-mysql-volume
+
+
+
+docker run --name a-mysql -v p-mysql-volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=company  -d mysql:5.7
+
+
+docker exec -it a-mysql bash
+mysql -uroot -padmin
+use company
+
+create table employee(id int primary key,name text);
+insert into employee values(101,'Pradeep');
+insert into employee values(102,'Sachin');
+insert into employee values(103,'Sunil');
+select * from employee;
+
+exit  
+exit
+
+docker stop a-mysql
+docker rm a-mysql;
+
+
+docker run --name b-mysql -v p-mysql-volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=admin -e MYSQL_DATABASE=company  -d mysql:5.7
+
+
+docker exec -it b-mysql bash
+mysql -uroot -padmin
+use company
+select * from employee; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+docker history pradeepch82/ems-mysql:1.1
+
+
+
+
+
+docker volume create pvc-vol
+	
+docker service create --name p-nginx --mount type=volume,source=pvc-vol,target=/usr/share/nginx/html --replicas 3 -p 2222:80 nginx
+
+
+
+Docker Swarm Volumes.
+=========================
+Swarm might not look as mature as Kubernetes: 
+It only comes with one type of volume natively, which is a volume shared between the container and its Docker host. This might come in handy for testing a deployment locally, but it won't do the job on a distributed cluster.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
