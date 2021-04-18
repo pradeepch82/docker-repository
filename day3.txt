@@ -99,6 +99,19 @@ docker build -t pradeepch82/pvc-mysql:1.1
 
 
 
+
+
+
+https://www.javatpoint.com/docker-java-example
+https://www.javatpoint.com/docker-php-example
+https://www.javatpoint.com/docker-phython-example
+https://www.javatpoint.com/docker-scala-example
+https://www.javatpoint.com/docker-perl-example
+https://www.javatpoint.com/docker-ruby-example
+
+
+
+
 Linking the containers (mysql with WordPress)
 ==================================================
 
